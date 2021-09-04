@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.artemis</groupId>
-	<artifactId>poc-tcc</artifactId>
+	<artifactId>DMserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>poc-tcc</name>
 	<description>Demo project for Spring Boot</description>

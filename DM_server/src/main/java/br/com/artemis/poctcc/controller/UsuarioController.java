@@ -1,7 +1,7 @@
 package br.com.artemis.poctcc.controller;
 
 
-import br.com.artemis.poctcc.model.Usuario;
+import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,6 @@ public class UsuarioController {
     public Usuario saveUsuario(@RequestBody Usuario usuario){
         repository.findAll()
                 .stream()
-                .filter(usuario1 -> usuario1.getCpf().equals(usuario.getCpf()))
                 .findFirst()
                 .ifPresent(usuario1 -> {
                     throw new RuntimeException("CPF já cadastrado!");

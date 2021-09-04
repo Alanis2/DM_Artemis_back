@@ -1,4 +1,4 @@
-package br.com.artemis.poctcc.dto;
+package br.com.artemis.poctcc.controller.dto;
 
 
 import lombok.AllArgsConstructor;
