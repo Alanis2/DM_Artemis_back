@@ -2,12 +2,17 @@ package br.com.artemis.poctcc.controller;
 
 import br.com.artemis.poctcc.controller.dto.ChaveDTO;
 import br.com.artemis.poctcc.controller.dto.LoginDTO;
+import br.com.artemis.poctcc.controller.dto.LoginResponse;
+import br.com.artemis.poctcc.repository.DoadorRepository;
+import br.com.artemis.poctcc.repository.InstituicaoRepository;
+import br.com.artemis.poctcc.repository.model.Doador;
+import br.com.artemis.poctcc.repository.model.Instituicao;
 import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.repository.UsuarioRepository;
+import br.com.artemis.poctcc.service.AuthenticationManagerService;
+import br.com.artemis.poctcc.service.LoginMaper;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.Random;
@@ -17,26 +22,40 @@ import java.util.Random;
 public class LoginController {
 
     UsuarioRepository repository;
+    private AuthenticationManagerService authenticationManagerService;
+    private DoadorRepository doadorRepository;
+    private InstituicaoRepository instituicaoRepository;
+    private LoginMaper loginMaper;
 
     @PostMapping("/login")
     public ChaveDTO login(@RequestBody LoginDTO loginDTO) {
 
 
-        Usuario usuarioLogin = repository.findAll()
-                .stream()
-                .filter(usuario ->
-                        usuario
-                                .getEmail().equals(loginDTO.getEmail())
-                                &&
-                                usuario
-                                        .getSenha().equals(loginDTO.getSenha())
-                )
-                .findFirst()
-                .orElse(null);
+        Usuario usuarioLogin = repository.findByEmailAndSenha(loginDTO.getEmail(), loginDTO.getSenha());
 
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        return new ChaveDTO(generatedString);
+        return new ChaveDTO(usuarioLogin.getId().toString());
+    }
+
+    @GetMapping(value = "/usuario")
+    public LoginResponse buscarDadosUsuario(@RequestHeader("Authorization") String token){
+        //TODO Atravez do token busque usuario
+        Usuario usuario = authenticationManagerService.getUsuarioByToken(token);
+
+        //TODO Verificar tipo do usuario
+            //TODO Caso usuario doador busque na tabela de doador e mapeie para login response
+        if(usuario.getPerfil().equals("DOADOR")){
+            Doador doador = doadorRepository
+                    .findByUsuario(usuario);
+
+             return loginMaper.mapear(doador);
+            //TODO Caso usuario instituicao busque na tabela instituicao e mapeie para login response
+        } else if (usuario.getPerfil().equals("INSTITUICAO")) {
+            Instituicao instituicao = instituicaoRepository
+                    .findByUsuario(usuario);
+
+            return loginMaper.mapear(instituicao);
+        }
+
+    throw new RuntimeException("Usuario não mapeado");
     }
 }

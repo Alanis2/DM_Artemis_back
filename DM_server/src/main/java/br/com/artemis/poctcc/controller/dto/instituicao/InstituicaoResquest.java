@@ -1,24 +1,16 @@
-package br.com.artemis.poctcc.repository.model;
+package br.com.artemis.poctcc.controller.dto.instituicao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instituicao {
-    @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-    private Long Id;
+public class InstituicaoResquest {
     private String nomeFantasia;
     private String razaoSocial;
     private String focoInstitucional;
-    @Column (unique = true)
     private String cnpj;
     private String dtFundacao;
     private String telefone;
@@ -28,8 +20,6 @@ public class Instituicao {
     private String cidade;
     private String estado;
     private String cep;
-    @OneToOne( cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Usuario usuario;
-
+    private String email;
+    private String senha;
 }
