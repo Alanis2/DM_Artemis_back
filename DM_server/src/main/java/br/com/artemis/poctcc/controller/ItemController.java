@@ -33,7 +33,7 @@ public class ItemController {
 
         item = itemRepository.save(item);
 
-        return ResponseEntity.status(200).body(item);
+        return ResponseEntity.status(201).body(item);
     }
 
     @GetMapping(value = "/{id}")
