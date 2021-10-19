@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping(value = "/doadores")
 public class DoadorController {
 
-
     private DoadorMaper doadorMaper;
     private DoadorRepository doadorRepository;
 
