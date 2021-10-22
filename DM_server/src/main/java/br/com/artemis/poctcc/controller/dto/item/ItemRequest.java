@@ -13,4 +13,5 @@ public class ItemRequest {
     private String image;
     private Integer quantidade;
     private String descricao;
+    private Long idIntituicao;
 }

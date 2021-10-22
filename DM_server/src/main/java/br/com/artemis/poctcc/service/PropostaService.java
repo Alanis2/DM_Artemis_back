@@ -20,7 +20,7 @@ public class PropostaService {
     private InstituicaoRepository instituicaoRepository;
     private PropostaRepository propostaRepository;
 
-    public Proposta mapearTabela (Long idItem, Long idInstituicao){
+    public Proposta criarProposta(Long idItem, Long idInstituicao){
         Proposta proposta = new Proposta();
         Item item = itemRepository
                 .findById(idItem)

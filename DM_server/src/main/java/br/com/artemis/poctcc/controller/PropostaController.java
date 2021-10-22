@@ -21,7 +21,7 @@ public class PropostaController {
     public ResponseEntity<Proposta> create(@RequestBody PropostaRequest request){
 
         Proposta proposta = propostaService
-                .mapearTabela(request.getIdItem(), request.getIdInstituicao());
+                .criarProposta(request.getIdItem(), request.getIdInstituicao());
 
         return ResponseEntity.ok(proposta);
     }

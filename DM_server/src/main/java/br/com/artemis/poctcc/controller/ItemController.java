@@ -6,6 +6,7 @@ import br.com.artemis.poctcc.repository.model.Item;
 import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.service.AuthenticationManagerService;
 import br.com.artemis.poctcc.service.ItemMaper;
+import br.com.artemis.poctcc.service.PropostaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class ItemController {
     private ItemMaper itemMaper;
     private ItemRepository itemRepository;
     private AuthenticationManagerService authenticationManagerService;
+    private PropostaService propostaService;
 
     @PostMapping()
     public ResponseEntity<Item> create(@RequestBody ItemRequest request, @RequestHeader("Authorization") String token){
@@ -32,6 +34,8 @@ public class ItemController {
         Item item = itemMaper.mapearTabela(request, usuario);
 
         item = itemRepository.save(item);
+
+        propostaService.criarProposta(item.getId(), request.getIdIntituicao());
 
         return ResponseEntity.status(201).body(item);
     }
