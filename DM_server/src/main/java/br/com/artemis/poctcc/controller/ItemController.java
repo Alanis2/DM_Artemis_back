@@ -35,7 +35,7 @@ public class ItemController {
 
         item = itemRepository.save(item);
 
-        propostaService.criarProposta(item.getId(), request.getIdIntituicao());
+        propostaService.criarProposta(item.getId(), request.getIdInstituicao());
 
         return ResponseEntity.status(201).body(item);
     }

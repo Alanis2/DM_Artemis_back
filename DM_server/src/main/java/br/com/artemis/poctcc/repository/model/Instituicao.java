@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -31,5 +32,7 @@ public class Instituicao {
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Usuario usuario;
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
 
 }

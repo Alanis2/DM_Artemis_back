@@ -5,6 +5,8 @@ import br.com.artemis.poctcc.repository.model.Instituicao;
 import br.com.artemis.poctcc.repository.model.Usuario;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class InstituicaoMaper {
 
@@ -28,6 +30,7 @@ public class InstituicaoMaper {
         instituicao.setCidade(request.getCidade());
         instituicao.setEstado(request.getEstado());
         instituicao.setCep(request.getCep());
+        instituicao.setDataCriacao(LocalDateTime.now());
         instituicao.setUsuario(usuario);
 
         return instituicao;

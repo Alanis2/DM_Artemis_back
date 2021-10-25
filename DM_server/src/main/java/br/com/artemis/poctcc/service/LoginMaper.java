@@ -1,6 +1,7 @@
 package br.com.artemis.poctcc.service;
 
 import br.com.artemis.poctcc.controller.dto.LoginResponse;
+import br.com.artemis.poctcc.repository.model.Admin;
 import br.com.artemis.poctcc.repository.model.Doador;
 import br.com.artemis.poctcc.repository.model.Instituicao;
 import org.springframework.stereotype.Component;
@@ -47,5 +48,14 @@ public class LoginMaper {
                 .tipo(instituicao.getUsuario().getPerfil())
                 .build();
 
+    }
+
+    public LoginResponse mapear(Admin admin) {
+        return LoginResponse
+                .builder()
+                .entityId(admin.getId())
+                .email(admin.getUsuario().getEmail())
+                .tipo(admin.getUsuario().getPerfil())
+                .build();
     }
 }

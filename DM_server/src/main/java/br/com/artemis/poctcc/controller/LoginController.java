@@ -3,8 +3,10 @@ package br.com.artemis.poctcc.controller;
 import br.com.artemis.poctcc.controller.dto.ChaveDTO;
 import br.com.artemis.poctcc.controller.dto.LoginDTO;
 import br.com.artemis.poctcc.controller.dto.LoginResponse;
+import br.com.artemis.poctcc.repository.AdminRepository;
 import br.com.artemis.poctcc.repository.DoadorRepository;
 import br.com.artemis.poctcc.repository.InstituicaoRepository;
+import br.com.artemis.poctcc.repository.model.Admin;
 import br.com.artemis.poctcc.repository.model.Doador;
 import br.com.artemis.poctcc.repository.model.Instituicao;
 import br.com.artemis.poctcc.repository.model.Usuario;
@@ -25,6 +27,7 @@ public class LoginController {
     private AuthenticationManagerService authenticationManagerService;
     private DoadorRepository doadorRepository;
     private InstituicaoRepository instituicaoRepository;
+    private AdminRepository adminRepository;
     private LoginMaper loginMaper;
 
     @PostMapping("/login")
@@ -54,6 +57,12 @@ public class LoginController {
                     .findByUsuario(usuario);
 
             return loginMaper.mapear(instituicao);
+        } else if(usuario.getPerfil().equals("ADMIN")){
+            Admin admin = adminRepository
+                    .findByUsuario(usuario);
+
+
+            return loginMaper.mapear(admin);
         }
 
     throw new RuntimeException("Usuario não mapeado");
