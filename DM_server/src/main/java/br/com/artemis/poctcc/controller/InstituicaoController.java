@@ -5,9 +5,15 @@ import br.com.artemis.poctcc.repository.InstituicaoRepository;
 import br.com.artemis.poctcc.repository.model.Instituicao;
 import br.com.artemis.poctcc.service.InstituicaoMaper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -43,10 +49,10 @@ public class InstituicaoController {
 
 
     @GetMapping
-    public ResponseEntity<List<Instituicao>> BuscarTodos() {
+    public ResponseEntity<Page<Instituicao>> BuscarTodos(@PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "name", required = false) String nome) {
 
-        List<Instituicao> instituicoes = instituicaoRepository
-                .findAll();
+        Page<Instituicao> instituicoes = instituicaoRepository
+                .findAll(pageable);
 
         return ResponseEntity.status(200).body(instituicoes);
     }

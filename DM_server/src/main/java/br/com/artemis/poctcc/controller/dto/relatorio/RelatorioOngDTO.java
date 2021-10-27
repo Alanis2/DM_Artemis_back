@@ -11,5 +11,6 @@ public class RelatorioOngDTO {
     private Long idInstituicao;
     private String nomeOng;
     private String razaoSocial;
+    private String cnpj;
     private String categoria;
 }

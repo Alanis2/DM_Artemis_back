@@ -5,8 +5,11 @@ import br.com.artemis.poctcc.repository.DoadorRepository;
 import br.com.artemis.poctcc.repository.model.Doador;
 import br.com.artemis.poctcc.service.DoadorMaper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -45,11 +48,11 @@ public class DoadorController {
 
 
     @GetMapping
-    public ResponseEntity<List<Doador>> buscarTodos() {
+    public ResponseEntity<Page<Doador>> buscarTodos(Pageable pageable, @RequestParam(value = "name", required = false) String nome) {
 
         //TODO Buscar Doadores Da Tabela
-        List<Doador> doadores = doadorRepository
-                .findAll();
+        Page<Doador> doadores = doadorRepository
+                .findAll(pageable);
         //TODO Retornar Response Com Doadores, Status 200
         return ResponseEntity.status(200).body(doadores);
     }

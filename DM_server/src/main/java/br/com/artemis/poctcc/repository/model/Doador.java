@@ -19,7 +19,8 @@ public class Doador {
     private String nome;
     @Column(unique = true)
     private String cpf;
-    private String dtNasc;
+    @Column(name = "dt_nasc")
+    private LocalDateTime dtNasc;
     private String telefone;
     private String rua;
     private String numero;

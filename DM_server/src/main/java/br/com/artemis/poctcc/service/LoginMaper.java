@@ -6,6 +6,8 @@ import br.com.artemis.poctcc.repository.model.Doador;
 import br.com.artemis.poctcc.repository.model.Instituicao;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class LoginMaper {
 
@@ -15,7 +17,7 @@ public class LoginMaper {
                 .entityId(doador.getId())
                 .nome(doador.getNome())
                 .cpf(doador.getCpf())
-                .dtNasc(doador.getDtNasc())
+                .dtNasc(doador.getDtNasc().format(DateTimeFormatter.BASIC_ISO_DATE))
                 .telefone(doador.getTelefone())
                 .rua(doador.getRua())
                 .numero(doador.getNumero())
