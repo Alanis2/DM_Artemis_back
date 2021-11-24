@@ -1,4 +1,4 @@
-package br.com.artemis.poctcc.controller.dto.itemMonetario;
+package br.com.artemis.poctcc.controller.dto.campanha;
 
 
 import lombok.AllArgsConstructor;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemMonetarioRequest {
+public class CampanhaRequest {
         private Long id;
         private String nome;
         private String image;
-        private Double valor;
+        private Long quantidade;
         private String descricao;
 }

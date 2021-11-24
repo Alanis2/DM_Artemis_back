@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 public class RelatorioDoadorDTO {
     private Long id;
     private Long idDoador;
-    private LocalDateTime dtNasc;
+    private String dtNasc;
     private String cpf;
     private String nomeDoador;
 
-    public Long getIdade() {
-        return CalculadorIdadeUtils.calcularIdade(this.dtNasc);
-
-    }
+//    public Long getIdade() {
+//        return CalculadorIdadeUtils.calcularIdade(this.dtNasc);
+//
+//    }
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemMonetario {
+public class Campanha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +18,7 @@ public class ItemMonetario {
     private String nome;
     @Column(length = 200000)
     private String image;
-    private Double valor;
+    private Long quantidade;
     private String descricao;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -79,7 +79,8 @@ public class RelatorioDoadorService {
            for (RelatorioDoadorDTO doadorDTO : relatorioDoadorDTO) {
                table2.addCell(doadorDTO.getNomeDoador());
                table2.addCell(new Phrase(doadorDTO.getCpf()));
-               table2.addCell(new Phrase(doadorDTO.getIdade().toString()));
+               table2.addCell(new Phrase(doadorDTO.getDtNasc()));
+//               table2.addCell(new Phrase(doadorDTO.getIdade().toString()));
            }
            table.setSpacingAfter(20);
 

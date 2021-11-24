@@ -54,11 +54,11 @@ public class ItemController {
     }
 
     @GetMapping
-    public  ResponseEntity<Page<Item>> buscarTodos(@RequestHeader("Authorization") String token, @PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "name", required = false) String nome){
+    public  ResponseEntity<Page<Item>>buscarTodos(@RequestHeader("Authorization") String token, @PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "name", required = false) String nome){
 
         Usuario usuario = authenticationManagerService.getUsuarioByToken(token);
 
-        Page<Item> items = (Page<Item>) itemRepository
+        List<Item> items = (List<Item>) itemRepository
                 .findAllByUsuario(usuario);
 
         Page<Item> itens = itemRepository
