@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PropostaRequest {
-
     private Long idItem;
     private Long idInstituicao;
 }

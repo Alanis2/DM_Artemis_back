@@ -2,7 +2,10 @@ package br.com.artemis.poctcc.controller;
 
 import br.com.artemis.poctcc.controller.dto.instituicao.InstituicaoResquest;
 import br.com.artemis.poctcc.repository.InstituicaoRepository;
+import br.com.artemis.poctcc.repository.PropostaRepository;
 import br.com.artemis.poctcc.repository.model.Instituicao;
+import br.com.artemis.poctcc.repository.model.Proposta;
+import br.com.artemis.poctcc.repository.model.enums.StatusProposta;
 import br.com.artemis.poctcc.service.InstituicaoMaper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import java.util.List;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/instituicoes")
@@ -23,6 +23,7 @@ public class InstituicaoController {
 
     private InstituicaoMaper instituicaoMaper;
     private InstituicaoRepository instituicaoRepository;
+    private PropostaRepository propostaRepository;
 
     @PostMapping()
     public ResponseEntity<Instituicao> create(@RequestBody InstituicaoResquest resquest) {
@@ -49,12 +50,70 @@ public class InstituicaoController {
 
 
     @GetMapping
-    public ResponseEntity<Page<Instituicao>> BuscarTodos(@PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "name", required = false) String nome) {
+    public ResponseEntity<Page<Instituicao>> buscarTodos(
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(value = "name", required = false) String nome
+    ){
 
         Page<Instituicao> instituicoes = instituicaoRepository
                 .findAll(pageable);
 
         return ResponseEntity.status(200).body(instituicoes);
+    }
+
+    @GetMapping("/{id}/propostas")
+    public ResponseEntity<List<Proposta>> buscarPorOng(
+            @PathVariable Long id,
+            @RequestParam(required = false)StatusProposta status
+    ){
+
+        Instituicao instituicao = instituicaoRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Instituição Não Encontrada"));
+        List<Proposta> propostas ;
+        if(status!= null){
+            propostas = propostaRepository
+                    .findByInstituicaoAndStatus(instituicao, status);
+        }
+        else {
+            propostas = propostaRepository
+                    .findByInstituicao(instituicao);
+        }
+        return ResponseEntity.status(200).body(propostas);
+    }
+
+    @PostMapping("/{idInstituicao}/propostas/{idProposta}/aceitar")
+    public ResponseEntity<Proposta> aceitarProposta(
+            @PathVariable Long idInstituicao,
+            @PathVariable Long idProposta
+    ){
+        Proposta proposta = propostaRepository
+                .findById(idProposta)
+                .orElseThrow(() -> new RuntimeException("Proposta Não Encontrada"));
+
+        if(idInstituicao==proposta.getInstituicao().getId()){
+            proposta.setStatus(StatusProposta.ACEITO);
+            propostaRepository.save(proposta);
+        }
+
+        return ResponseEntity.status(200).body(proposta);
+    }
+
+    @PostMapping("/{idInstituicao}/propostas/{idProposta}/recusado")
+    public ResponseEntity<Proposta> recusarProposta(
+            @PathVariable Long idInstituicao,
+            @PathVariable Long idProposta
+    ){
+        Proposta proposta = propostaRepository
+                .findById(idProposta)
+                .orElseThrow(() -> new RuntimeException("Proposta Não Encontrada"));
+
+        if(idInstituicao==proposta.getInstituicao().getId()){
+            proposta.setStatus(StatusProposta.RECUSADO);
+            propostaRepository.save(proposta);
+        }
+
+        return ResponseEntity.status(200).body(proposta);
     }
 
     @PutMapping(value = "/{id}")

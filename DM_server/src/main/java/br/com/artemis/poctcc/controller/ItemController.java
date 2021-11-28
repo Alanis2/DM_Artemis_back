@@ -2,7 +2,6 @@ package br.com.artemis.poctcc.controller;
 
 import br.com.artemis.poctcc.controller.dto.item.ItemRequest;
 import br.com.artemis.poctcc.repository.ItemRepository;
-import br.com.artemis.poctcc.repository.model.Instituicao;
 import br.com.artemis.poctcc.repository.model.Item;
 import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.service.AuthenticationManagerService;

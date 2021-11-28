@@ -33,6 +33,7 @@ public class PropostaService {
         proposta.setItem(item);
         proposta.setInstituicao(instituicao);
 
+
         proposta.setStatus(StatusProposta.PENDENTE);
 
         return propostaRepository.save(proposta);
