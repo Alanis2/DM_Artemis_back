@@ -12,5 +12,5 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    Item findAllByUsuario(Usuario usuario);
+    Page<Item> findAllByUsuario(Usuario usuario, Pageable pageable);
 }

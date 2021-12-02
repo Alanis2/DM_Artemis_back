@@ -79,8 +79,8 @@ public class RelatorioDoadorService {
            for (RelatorioDoadorDTO doadorDTO : relatorioDoadorDTO) {
                table2.addCell(doadorDTO.getNomeDoador());
                table2.addCell(new Phrase(doadorDTO.getCpf()));
-               table2.addCell(new Phrase(doadorDTO.getDtNasc()));
-//               table2.addCell(new Phrase(doadorDTO.getIdade().toString()));
+               table2.addCell(new Phrase(String.valueOf(doadorDTO.getDtNasc())));
+               table2.addCell(new Phrase(doadorDTO.getIdade().toString()));
            }
            table.setSpacingAfter(20);
 
@@ -99,7 +99,7 @@ public class RelatorioDoadorService {
            document.add(paragraph);
            document.add(image);
            document.add( Chunk.NEWLINE);
-//           document.add(quantidadeDoadores);
+           document.add(quantidadeDoadores);
            document.add(table);
            document.add( Chunk.NEWLINE);
            document.add(table2);
@@ -144,8 +144,8 @@ public class RelatorioDoadorService {
         qtdDoador.put("Semana", resumoCadastroDataDTO.getSemana().intValue());
         qtdDoador.put("Mês", resumoCadastroDataDTO.getMês().intValue());
         qtdDoador.put("Ano", resumoCadastroDataDTO.getAno().intValue());
-//        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        table.addCell(cell1);
+        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell1);
 
         for (int i = 0; i < qtdDoador.size(); i++){
             table.addCell(new ArrayList<>(qtdDoador.keySet()).get(i));

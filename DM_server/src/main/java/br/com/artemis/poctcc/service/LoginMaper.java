@@ -59,6 +59,7 @@ public class LoginMaper {
                 .entityId(admin.getId())
                 .email(admin.getUsuario().getEmail())
                 .tipo(admin.getUsuario().getPerfil())
+                .image(admin.getUsuario().getImage())
                 .build();
     }
 }

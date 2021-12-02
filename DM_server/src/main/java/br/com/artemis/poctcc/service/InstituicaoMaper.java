@@ -49,6 +49,7 @@ public class InstituicaoMaper {
         instituicao.setCidade(request.getCidade());
         instituicao.setEstado(request.getEstado());
         instituicao.setCep(request.getCep());
+        instituicao.setImage(request.getImage());
 
         return instituicao;
     }

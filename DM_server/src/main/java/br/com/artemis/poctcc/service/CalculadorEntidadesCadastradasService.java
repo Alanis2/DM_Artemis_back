@@ -7,6 +7,7 @@ import br.com.artemis.poctcc.repository.model.Item;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class CalculadorEntidadesCadastradasService {
 
     private Long getConta(List<Doador> doadors, Integer qtdDoador) {
         return doadors.stream().filter(doador -> {
-            LocalDateTime dataCriacao = doador.getDataCriacao();
-            long quantidadeDias = Duration.between(dataCriacao, LocalDateTime.now()).toDays();
+            LocalDate dataCriacao = doador.getDataCriacao();
+            long quantidadeDias = Duration.between(dataCriacao, LocalDate.now()).toDays();
             return quantidadeDias < qtdDoador;
         }).count();
     }
@@ -76,11 +77,11 @@ public class CalculadorEntidadesCadastradasService {
         return resumoCadastroDataDTO;
     }
 
-    private Long getContaDoacao(List<Item> items, Integer qtdDoador) {
+    private Long getContaDoacao(List<Item> items, Integer qtdItem) {
         return items.stream().filter(item -> {
             LocalDateTime dataCriacao = item.getDataCriacao();
             long quantidadeDias = Duration.between(dataCriacao, LocalDateTime.now()).toDays();
-            return quantidadeDias < qtdDoador;
+            return quantidadeDias < qtdItem;
         }).count();
     }
 }

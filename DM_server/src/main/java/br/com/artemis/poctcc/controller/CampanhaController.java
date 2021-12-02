@@ -7,6 +7,9 @@ import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.service.AuthenticationManagerService;
 import br.com.artemis.poctcc.service.CampanhaMaper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +45,15 @@ public class CampanhaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Campanha>> buscarTodos(@RequestHeader("Authorization") String token){
+    public ResponseEntity<Page<Campanha>> buscarTodos(
+            @RequestHeader("Authorization") String token,
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(value = "name", required = false) String nome
+    ){
         Usuario usuario = authenticationManagerService.getUsuarioByToken(token);
 
-        List <Campanha> campanhas = campanhaRepository
-                .findAllByUsuario(usuario);
+        Page<Campanha> campanhas = campanhaRepository
+                .findAllByUsuario(usuario, pageable);
 
         return ResponseEntity.status(200).body(campanhas);
     }

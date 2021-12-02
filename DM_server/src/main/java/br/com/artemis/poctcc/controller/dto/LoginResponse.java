@@ -25,7 +25,7 @@ public class LoginResponse {
     private String cep;
     private String email;
     private String tipo;
-
+    private String image;
     private String nome;
     private String cpf;
     private String dtNasc;

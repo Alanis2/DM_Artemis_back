@@ -29,6 +29,8 @@ public class Instituicao {
     private String cidade;
     private String estado;
     private String cep;
+    @Column(length = 200000)
+    private String image;
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Usuario usuario;

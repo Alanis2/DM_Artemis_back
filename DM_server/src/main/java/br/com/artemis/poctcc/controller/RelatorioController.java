@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -84,7 +85,7 @@ public class RelatorioController {
                         .builder()
                         .id(doador.getId())
                         .nomeDoador(doador.getNome())
-                        .dtNasc(doador.getDtNasc())
+                        .dtNasc(LocalDateTime.parse(doador.getDtNasc()))
                         .cpf(doador.getCpf())
                         .build())
                 .collect(Collectors.toList());

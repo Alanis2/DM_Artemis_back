@@ -4,6 +4,7 @@ import br.com.artemis.poctcc.controller.dto.proposta.PropostaRequest;
 import br.com.artemis.poctcc.repository.InstituicaoRepository;
 import br.com.artemis.poctcc.repository.PropostaRepository;
 import br.com.artemis.poctcc.repository.UsuarioRepository;
+import br.com.artemis.poctcc.repository.model.Item;
 import br.com.artemis.poctcc.repository.model.Proposta;
 import br.com.artemis.poctcc.repository.model.Usuario;
 import br.com.artemis.poctcc.service.PropostaService;
@@ -44,12 +45,20 @@ public class PropostaController {
         Usuario usuario = usuarioRepository.findById(Long.parseLong(token))
                 .orElseThrow(() -> new RuntimeException());
         
-        List<Proposta> propostas = propostaRepository
-                .findByItem_Usuario(usuario);
+        Page<Proposta> propostas = propostaRepository
+                .findByItem_Usuario(usuario, pageable);
 
-        Page<Proposta> propostas1 = propostaRepository
-                .findAll(pageable);
+        return ResponseEntity.status(200).body(propostas);
+    }
 
-        return ResponseEntity.status(200).body(propostas1);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Proposta> deletar(@PathVariable Long id){
+        Proposta proposta = propostaRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Proposta não encontrada"));
+
+        propostaRepository.delete(proposta);
+
+        return ResponseEntity.noContent().build();
     }
 }

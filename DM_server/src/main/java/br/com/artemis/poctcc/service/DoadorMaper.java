@@ -41,6 +41,7 @@ public class DoadorMaper {
         doador.setComplemento(request.getComplemento());
         doador.setCidade(request.getCidade());
         doador.setEstado(request.getEstado());
+        doador.setImage(request.getImage());
         return doador;
     }
 }

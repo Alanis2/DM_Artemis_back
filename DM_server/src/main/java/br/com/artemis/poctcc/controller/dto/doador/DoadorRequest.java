@@ -29,9 +29,9 @@ public class DoadorRequest {
     private String cidade;
     private String estado;
     private String cep;
+    private String image;
     private String email;
     private String senha;
-
 //    public LocalDateTime getDtNasc() {
 //        return this.dtNasc.atTime(0,0);
 //    }

@@ -20,6 +20,7 @@ public class InstituicaoResquest {
     private String cidade;
     private String estado;
     private String cep;
+    private String image;
     private String email;
     private String senha;
 }

@@ -62,22 +62,24 @@ public class InstituicaoController {
     }
 
     @GetMapping("/{id}/propostas")
-    public ResponseEntity<List<Proposta>> buscarPorOng(
+    public ResponseEntity<Page<Proposta>> buscarPorOng(
             @PathVariable Long id,
-            @RequestParam(required = false)StatusProposta status
+            @RequestParam(required = false)StatusProposta status,
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(value = "name", required = false) String nome
     ){
 
         Instituicao instituicao = instituicaoRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Instituição Não Encontrada"));
-        List<Proposta> propostas ;
+        Page<Proposta> propostas ;
         if(status!= null){
             propostas = propostaRepository
-                    .findByInstituicaoAndStatus(instituicao, status);
+                    .findByInstituicaoAndStatus(instituicao, status, pageable);
         }
         else {
             propostas = propostaRepository
-                    .findByInstituicao(instituicao);
+                    .findByInstituicao(instituicao, pageable);
         }
         return ResponseEntity.status(200).body(propostas);
     }

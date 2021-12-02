@@ -3,14 +3,21 @@ package br.com.artemis.poctcc.controller;
 import br.com.artemis.poctcc.controller.dto.doador.DoadorRequest;
 import br.com.artemis.poctcc.repository.DoadorRepository;
 import br.com.artemis.poctcc.repository.PropostaRepository;
+import br.com.artemis.poctcc.repository.UsuarioRepository;
 import br.com.artemis.poctcc.repository.model.Doador;
+import br.com.artemis.poctcc.repository.model.Proposta;
+import br.com.artemis.poctcc.repository.model.Usuario;
+import br.com.artemis.poctcc.repository.model.enums.StatusProposta;
 import br.com.artemis.poctcc.service.DoadorMaper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 
 @RestController
@@ -21,6 +28,7 @@ public class DoadorController {
     private DoadorMaper doadorMaper;
     private DoadorRepository doadorRepository;
     private PropostaRepository propostaRepository;
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping
     public ResponseEntity<Doador> create(@RequestBody DoadorRequest request) {
@@ -58,26 +66,27 @@ public class DoadorController {
         return ResponseEntity.status(200).body(doadores);
     }
 
-//    @GetMapping("/{id}/propostas")
-//    public ResponseEntity<List<Proposta>> buscarPorDoador(
-//            @PathVariable Long id,
-//            @RequestParam(required = false) StatusProposta status
-//    ){
-//
-//        Doador doador = doadorRepository
-//                .findById(id)
-//                .orElseThrow(() -> new RuntimeException("Doador Não Encontrada"));
-//        List<Proposta> propostas ;
-//        if(status!= null){
-//            propostas = propostaRepository
-//                    .findByDoadorAndStatus(doador, status);
-//        }
-//        else {
-//            propostas = propostaRepository
-//                    .findByDoador(doador);
-//        }
-//        return ResponseEntity.status(200).body(propostas);
-//    }
+    @GetMapping("/{id}/propostas")
+    public ResponseEntity<Page<Proposta>> buscarPorDoador(
+            @PathVariable Long id,
+            @RequestParam(required = false) StatusProposta status,
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(value = "name", required = false) String nome
+    ){
+
+        Usuario usuario = usuarioRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Doador Não Encontrada"));
+        Page<Proposta> propostas ;
+        if(status!= null){
+            propostas = propostaRepository
+                    .findByItem_UsuarioAndStatus(usuario, status, pageable);
+        }
+        else {
+            propostas = null;
+        }
+        return ResponseEntity.status(200).body(propostas);
+    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Doador> atualizar(@RequestBody DoadorRequest request, @PathVariable Long id){

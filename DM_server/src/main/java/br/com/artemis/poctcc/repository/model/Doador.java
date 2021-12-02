@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,9 +29,11 @@ public class Doador {
     private String cidade;
     private String estado;
     private String cep;
+    @Column(length = 200000)
+    private String image;
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Usuario usuario;
     @Column(name = "data_criacao")
-    private LocalDateTime dataCriacao;
+    private LocalDate dataCriacao;
 }

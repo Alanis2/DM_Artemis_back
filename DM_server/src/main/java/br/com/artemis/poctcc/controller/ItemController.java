@@ -14,8 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/itens")
@@ -53,17 +51,18 @@ public class ItemController {
     }
 
     @GetMapping
-    public  ResponseEntity<Page<Item>>buscarTodos(@RequestHeader("Authorization") String token, @PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "name", required = false) String nome){
+    public  ResponseEntity<Page<Item>>buscarTodos(
+            @RequestHeader("Authorization") String token,
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(value = "name", required = false) String nome
+    ){
 
         Usuario usuario = authenticationManagerService.getUsuarioByToken(token);
 
-        List<Item> items = (List<Item>) itemRepository
-                .findAllByUsuario(usuario);
+        Page<Item> items = itemRepository
+                .findAllByUsuario(usuario, pageable);
 
-        Page<Item> itens = itemRepository
-                .findAll(pageable);
-
-        return ResponseEntity.status(200).body(itens);
+        return ResponseEntity.status(200).body(items);
     }
 
     @PutMapping(value = "/{id}")

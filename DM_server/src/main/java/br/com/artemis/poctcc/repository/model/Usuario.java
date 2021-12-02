@@ -21,4 +21,5 @@ public class Usuario {
     String perfil;
     String email;
     String senha;
+    String image;
 }
